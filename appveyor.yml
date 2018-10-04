@@ -43,21 +43,22 @@ install:
   - g++ --version
   - mingw32-make --version
   - echo CPU Count is %number_of_processors%
-  - rmdir c:\go /s /q
-  - appveyor DownloadFile https://storage.googleapis.com/golang/go1.11.windows-amd64.zip
-  - 7z x go1.11.windows-amd64.zip -y -oC:\ > NUL
-  - set PATH=%PATH%;%GOPATH%\bin\windows_%GOARCH%;%GOPATH%\bin
-  - echo %PATH%
-  - echo %GOPATH%
-  - go version
-  - go env
-  - go get -v -t ./...
 
 for:
   -
     matrix:
       only:
         - platform: x64
+    install:
+      - rmdir c:\go /s /q
+      - appveyor DownloadFile https://storage.googleapis.com/golang/go1.11.windows-amd64.zip
+      - 7z x go1.11.windows-amd64.zip -y -oC:\ > NUL
+      - set PATH=%PATH%;%GOPATH%\bin\windows_%GOARCH%;%GOPATH%\bin
+      - echo %PATH%
+      - echo %GOPATH%
+      - go version
+      - go env
+      - go get -v -t ./...
     environment:
       GOARCH: amd64
     build_script:
@@ -69,6 +70,16 @@ for:
     matrix:
       only:
         - platform: x86
+    install:
+      - rmdir c:\go /s /q
+      - appveyor DownloadFile https://storage.googleapis.com/golang/go1.11.windows-386.zip
+      - 7z x go1.11.windows-386.zip -y -oC:\ > NUL
+      - set PATH=%PATH%;%GOPATH%\bin\windows_%GOARCH%;%GOPATH%\bin
+      - echo %PATH%
+      - echo %GOPATH%
+      - go version
+      - go env
+      - go get -v -t ./...
     environment:
       GOARCH: 386
     build_script:
