@@ -1,6 +1,8 @@
 version: "{build}"
-platform: x64
 os: Windows Server 2012 R2
+platform:
+  - x64
+  - x86
 
 branches:
   only:
@@ -8,7 +10,6 @@ branches:
 
 environment:
   GOPATH: c:\gopath
-  GOARCH: amd64
   GOOS: windows
 
 clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
@@ -52,13 +53,30 @@ install:
   - go env
   - go get -v -t ./...
 
-build_script:
-  - go build -o a3Logs_x64.dll -buildmode=c-shared .
+for:
+  -
+    matrix:
+      only:
+        - platform: x64
+    environment:
+      GOARCH: amd64
+    build_script:
+      - go build -o a3Logs_x64.dll -buildmode=c-shared .
+    artifacts:
+      - path: a3Logs_x64.dll
+        name: binary
+  -
+    matrix:
+      only:
+        - platform: x86
+    environment:
+      GOARCH: 386
+    build_script:
+      - go build -o a3Logs.dll -buildmode=c-shared .
+    artifacts:
+      - path: a3Logs.dll
+        name: binary
 
 test: off
-
-artifacts:
-  - path: a3Logs_x64.dll
-    name: binary
 
 deploy: off
