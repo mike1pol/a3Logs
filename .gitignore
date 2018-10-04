@@ -1,0 +1,5 @@
+vendor
+build
+a3Logs.h
+*.so
+*.dll
