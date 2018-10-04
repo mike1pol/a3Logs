@@ -1,4 +1,4 @@
-version: "{build}"
+version: 0.0.1-{build}
 image:
   - Windows Server 2012 R2
   - Ubuntu
@@ -8,7 +8,8 @@ platform:
 
 branches:
   only:
-    - master
+  - master
+skip_tags: true
 
 for:
   -
@@ -31,27 +32,6 @@ for:
       - go build -o a3Logs_x64.so -buildmode=c-shared .
     artifacts:
       - path: a3Logs_x64.so
-        name: binary
-  -
-    matrix:
-      only:
-        - platform: x86
-          image: Ubuntu
-    clone_folder: /go/src/github.com/mike1pol/a3Logs
-    install:
-      - sh: sudo apt update
-      - sh: sudo apt install -y curl build-essential
-      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-386.tar.gz
-      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-386.tar.gz
-    environment:
-      PATH: $PATH:/usr/local/go/bin
-      GOPATH: /go
-      GOOS: linux
-      GOARCH: 386
-    build_script:
-      - go build -o a3Logs.so -buildmode=c-shared .
-    artifacts:
-      - path: a3Logs.so
         name: binary
   -
     matrix:
@@ -163,8 +143,7 @@ for:
 test: off
 
 deploy:
-  release: v0.0.1-$(appveyor_build_version)
-  description: 'Autobuild'
+  release: v$(appveyor_build_version)
   provider: GitHub
   auth_token:
     secure: oWzmrBr2aISJfqcr8c4FFjdwSDxJoSmucdBLp3S1OOv5/GuTQk29KS4j+l/MlV7i
