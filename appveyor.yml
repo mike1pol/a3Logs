@@ -21,7 +21,7 @@ for:
       - sh: sudo apt update
       - sh: sudo apt install -y curl build-essential
       - sh: curl -O https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
-      - sh: tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
     environment:
       PATH: $PATH:/usr/local/go/bin
       GOPATH: /go
@@ -41,8 +41,8 @@ for:
     install:
       - sh: sudo apt update
       - sh: sudo apt install -y curl build-essential
-      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
-      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-386.tar.gz
+      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-386.tar.gz
     environment:
       PATH: $PATH:/usr/local/go/bin
       GOPATH: /go
