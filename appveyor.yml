@@ -1,7 +1,5 @@
 version: 0.0.1-{build}
-image:
-  - Windows Server 2012 R2
-  - Ubuntu
+image: Windows Server 2012 R2
 platform:
   - x64
   - x86
@@ -10,35 +8,13 @@ branches:
   only:
   - master
 skip_tags: true
-
+clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
 for:
   -
     matrix:
       only:
         - platform: x64
-          image: Ubuntu
-    clone_folder: /go/src/github.com/mike1pol/a3Logs
-    install:
-      - sh: sudo apt update
-      - sh: sudo apt install -y curl build-essential
-      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
-      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
-    environment:
-      PATH: $PATH:/usr/local/go/bin
-      GOPATH: /go
-      GOOS: linux
-      GOARCH: amd64
-    build_script:
-      - go build -o a3Logs_x64.so -buildmode=c-shared .
-    artifacts:
-      - path: a3Logs_x64.so
-        name: binary
-  -
-    matrix:
-      only:
-        - platform: x64
           image: Windows Server 2012 R2
-    clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
           if (-Not (Test-Path "$pwd/build/tdm64-cpp.tar.lzma")) {
@@ -91,7 +67,6 @@ for:
       only:
         - platform: x86
           image: Windows Server 2012 R2
-    clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
           if (-Not (Test-Path "$pwd/build/tdm64-cpp.tar.lzma")) {
