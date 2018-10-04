@@ -1,7 +1,7 @@
 version: "{build}"
-os:
+image:
   - Windows Server 2012 R2
-  - Ubuntu 16.04.4 LTS (Xenial Xerus)
+  - Ubuntu
 platform:
   - x64
   - x86
@@ -15,7 +15,7 @@ for:
     matrix:
       only:
         - platform: x64
-          os: Ubuntu 16.04.4 LTS (Xenial Xerus)
+          image: Ubuntu
     clone_folder: /go/src/github.com/mike1pol/a3Logs
     install:
       - sh: sudo apt update
@@ -36,7 +36,7 @@ for:
     matrix:
       only:
         - platform: x86
-          os: Ubuntu 16.04.4 LTS (Xenial Xerus)
+          image: Ubuntu
     clone_folder: /go/src/github.com/mike1pol/a3Logs
     install:
       - sh: sudo apt update
@@ -57,8 +57,7 @@ for:
     matrix:
       only:
         - platform: x64
-          os: Windows Server 2012 R2
-
+          image: Windows Server 2012 R2
     clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
@@ -111,7 +110,7 @@ for:
     matrix:
       only:
         - platform: x86
-          os: Windows Server 2012 R2
+          image: Windows Server 2012 R2
     clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
