@@ -1,5 +1,7 @@
 version: "{build}"
-os: Windows Server 2012 R2
+os:
+  - Windows Server 2012 R2
+  - Ubuntu 16.04.4 LTS (Xenial Xerus)
 platform:
   - x64
   - x86
@@ -8,17 +10,56 @@ branches:
   only:
     - master
 
-environment:
-  GOPATH: c:\gopath
-  GOOS: windows
-
-clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
-
 for:
   -
     matrix:
       only:
         - platform: x64
+          os: Ubuntu 16.04.4 LTS (Xenial Xerus)
+    clone_folder: /go/src/github.com/mike1pol/a3Logs
+    install:
+      - sh: sudo apt update
+      - sh: sudo apt install -y curl build-essential
+      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
+      - sh: tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+    environment:
+      PATH: $PATH:/usr/local/go/bin
+      GOPATH: /go
+      GOOS: linux
+      GOARCH: amd64
+    build_script:
+      - go build -o a3Logs_x64.so -buildmode=c-shared .
+    artifacts:
+      - path: a3Logs_x64.so
+        name: binary
+  -
+    matrix:
+      only:
+        - platform: x86
+          os: Ubuntu 16.04.4 LTS (Xenial Xerus)
+    clone_folder: /go/src/github.com/mike1pol/a3Logs
+    install:
+      - sh: sudo apt update
+      - sh: sudo apt install -y curl build-essential
+      - sh: curl -O https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
+      - sh: sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+    environment:
+      PATH: $PATH:/usr/local/go/bin
+      GOPATH: /go
+      GOOS: linux
+      GOARCH: 386
+    build_script:
+      - go build -o a3Logs.so -buildmode=c-shared .
+    artifacts:
+      - path: a3Logs.so
+        name: binary
+  -
+    matrix:
+      only:
+        - platform: x64
+          os: Windows Server 2012 R2
+
+    clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
           if (-Not (Test-Path "$pwd/build/tdm64-cpp.tar.lzma")) {
@@ -58,6 +99,8 @@ for:
       - go env
       - go get -v -t ./...
     environment:
+      GOPATH: c:\gopath
+      GOOS: windows
       GOARCH: amd64
     build_script:
       - go build -o a3Logs_x64.dll -buildmode=c-shared .
@@ -68,6 +111,8 @@ for:
     matrix:
       only:
         - platform: x86
+          os: Windows Server 2012 R2
+    clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
     install:
       - ps: >-
           if (-Not (Test-Path "$pwd/build/tdm64-cpp.tar.lzma")) {
@@ -107,6 +152,8 @@ for:
       - go env
       - go get -v -t ./...
     environment:
+      GOPATH: c:\gopath
+      GOOS: windows
       GOARCH: 386
     build_script:
       - go build -o a3Logs.dll -buildmode=c-shared .
@@ -116,4 +163,14 @@ for:
 
 test: off
 
-deploy: off
+deploy:
+  release: v0.0.1-$(appveyor_build_version)
+  description: 'Autobuild'
+  provider: GitHub
+  auth_token:
+    secure: oWzmrBr2aISJfqcr8c4FFjdwSDxJoSmucdBLp3S1OOv5/GuTQk29KS4j+l/MlV7i
+  artifact: binary
+  draft: false
+  prerelease: false
+  on:
+    branch: master
