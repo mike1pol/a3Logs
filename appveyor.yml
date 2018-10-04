@@ -3,11 +3,11 @@ image: Windows Server 2012 R2
 platform:
   - x64
   - x86
-
 branches:
   only:
   - master
 skip_tags: true
+test: off
 clone_folder: c:\gopath\src\github.com\mike1pol\a3Logs
 for:
   -
@@ -114,8 +114,6 @@ for:
     artifacts:
       - path: a3Logs.dll
         name: binary
-
-test: off
 
 deploy:
   release: v$(appveyor_build_version)
