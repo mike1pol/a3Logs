@@ -1,0 +1,25 @@
+language: go
+go: '1.10'
+
+before_install:
+  - sudo apt update
+  - sudo apt install -y mingw-w64 gcc-multilib g++-multilib build-essential libc6-dev libc6-dev-i386 zip
+
+install:
+  - go get -u github.com/golang/dep/cmd/dep
+
+before_deploy:
+  - git config --local user.name "travis"
+  - git config --local user.email "t@travis-ci.org"
+  - git tag "v0.0.1-$TRAVIS_BUILD_NUMBER-$(git log --format=%h -1)"
+  - zip -r a3Logs.zip a3Logs
+
+deploy:
+  provider: releases
+  api_key:
+    secure: DTsV1lRllGIjuGrhRZ4pXX2F4hqcDfnGfO07ud5TO/jjyI9lKgr2awNDsDOpJbTYXqph66uQEwgGhMYEL6uF8iT2onaQyEmZK1b/JLaoOVe9SVCUH+HUDWoYPBIS+p58Dj+8vGXASVO49AyLoMH78LmQD1VIDjLaSkfqBuxTzrh6LUxLOwbiu0u2AOE7QzqJLXseciXtwQZnq25LqtqSLWfCx0Uxhgj85JSW17l3jcBz4MB1qZ80WA4WxqXXCoWTHQ2MgG99A6cXBUT7b8N3wQUCRSQ/SQTCUTAM4voi3E23QXDG6BDDY9OcwTsgq92/sbF08YN4Y1c3n5Mwib/2Q+g2REP2qGWcTFma5kBKVkX0J+J6Ziqty4nbnHCF9p4+AiNXLh812Uj3QV4gqeGAY8qtWiljFbTAy2RsIRP+IDjpuK5PFo1jdgpS+bnCchya2frwnfUZeURRKtiYMR6u8iw+Dd/t4NC4c6AxA0zKU6UyajnIis6BnK3htg78jlkPpEsGme1sIbfPejQUY9fHsBKnmoJE/pAuFOt0ZUHgDC5PCI/8Mb7oq/Sciei+dxW7urnsQshmpxeUom2k10ZmjwzSOEsp6YI+71rhmHxWjRFRrU4J3TCDv/eU+zJPdjqIdl8Ca4/oJHoXlEs1A9OXBAFgvQVG2XBqDoF29cham/Y=
+  file: a3Logs.zip
+  skip_cleanup: true
+  on:
+    branch: master
+    repo: mike1pol/a3Logs

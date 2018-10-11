@@ -53,6 +53,8 @@ for:
       - go version
       - go env
       - go get -v -t ./...
+      - go get github.com/go-sql-driver/mysql
+      - go get gopkg.in/ini.v1
     environment:
       GOPATH: c:\gopath
       GOOS: windows
@@ -105,6 +107,8 @@ for:
       - go version
       - go env
       - go get -v -t ./...
+      - go get github.com/go-sql-driver/mysql
+      - go get gopkg.in/ini.v1
     environment:
       GOPATH: c:\gopath
       GOOS: windows

@@ -1,5 +1,5 @@
 vendor
 build
-a3Logs.h
+*.h
 *.so
 *.dll
