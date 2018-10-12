@@ -14,6 +14,8 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 	"time"
@@ -28,9 +30,14 @@ var db *sql.DB
 var config *ini.File
 
 func getConfig() error {
-	cfg, err := ini.Load("config.ini")
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		return err
+	}
+	cFile := fmt.Sprintf("%s/%s", dir, "config.ini")
+	cfg, err := ini.Load(cFile)
 	config = cfg
-	return err
+	return fmt.Errorf("%s - %s", cFile, err)
 }
 
 func getTemplate() {
