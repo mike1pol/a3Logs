@@ -12,7 +12,7 @@ before_deploy:
   - git config --local user.name "travis"
   - git config --local user.email "t@travis-ci.org"
   - git tag "v0.0.1-$TRAVIS_BUILD_NUMBER-$(git log --format=%h -1)"
-  - zip -r a3Logs.zip a3Logs
+  - zip -r a3Logs.zip @a3Logs
 
 deploy:
   provider: releases

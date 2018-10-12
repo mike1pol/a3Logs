@@ -34,7 +34,7 @@ func getConfig() error {
 	if err != nil {
 		return err
 	}
-	cFile := fmt.Sprintf("%s/%s", dir, "config.ini")
+	cFile := fmt.Sprintf("%s/@a3Logs/%s", dir, "config.ini")
 	cfg, err := ini.Load(cFile)
 	config = cfg
 	return fmt.Errorf("%s - %s", cFile, err)
