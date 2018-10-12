@@ -13,7 +13,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -37,7 +36,10 @@ func getConfig() error {
 	cFile := fmt.Sprintf("%s/@a3Logs/%s", dir, "config.ini")
 	cfg, err := ini.Load(cFile)
 	config = cfg
-	return fmt.Errorf("%s - %s", cFile, err)
+	if err != nil {
+		return fmt.Errorf("%s - %s", cFile, err)
+	}
+	return nil
 }
 
 func getTemplate() {
@@ -157,9 +159,6 @@ func RVExtensionArgs(output *C.char, outputsize C.size_t, input *C.char, argv **
 	var tpl bytes.Buffer
 	err := tmpl.Execute(&tpl, data)
 	res, err := db.Exec(tpl.String())
-
-	d1 := []byte(fmt.Sprintf("arr: %s\r\njson: %s\r\nmap: %s\r\nsql: %s", arr, jsonData, out, tpl.String()))
-	ioutil.WriteFile("sql.log", d1, 0644)
 
 	var outMSG string
 
